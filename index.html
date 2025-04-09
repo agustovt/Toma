@@ -1,40 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Store</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Quiz - Colégio Sigma | Matemática</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #f5f9ff, #d6ecff);
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      animation: fade 1s ease;
+    }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .question h3 {
+      color: #2980b9;
+    }
+    .options label {
+      display: block;
+      background: #ecf0f1;
+      margin: 6px 0;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options input[type="radio"] {
+      display: none;
+    }
+    .options label:hover {
+      background: #dceffb;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #2471a3;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Online Store</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">Cart</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="products">
-            <h2>Products</h2>
-            <div class="product-list">
-                <!-- Products will be injected here by JavaScript -->
-            </div>
-        </section>
-        <section class="cart">
-            <h2>Cart</h2>
-            <div class="cart-items">
-                <!-- Cart items will be injected here by JavaScript -->
-            </div>
-            <div class="total">
-                Total: $<span id="totalAmount">0.00</span>
-            </div>
-            <button id="checkoutButton">Checkout</button>
-        </section>
-    </main>
-    <script src="script.js"></script>
+  <div class="container">
+    <h1>Colégio Sigma - Quiz Matemática</h1>
+
+    <!-- COMEÇO DAS QUESTÕES -->
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const quiz = [
+      {
+        pergunta: "1. Qual é o nome do ponto onde os eixos X e Y se cruzam no plano cartesiano?",
+        opcoes: ["Origem", "Quadrante", "Função", "Inclinação"],
+        correta: 0
+      },
+      {
+        pergunta: "2. Qual é o par ordenado da origem?",
+        opcoes: ["(0,0)", "(1,1)", "(x,y)", "(-1,-1)"],
+        correta: 0
+      },
+      {
+        pergunta: "3. O que representa o coeficiente 'a' na função afim f(x) = ax + b?",
+        opcoes: ["Intercepto", "Raiz", "Inclinação da reta", "Valor fixo"],
+        correta: 2
+      },
+      {
+        pergunta: "4. O gráfico de uma função afim é sempre uma:",
+        opcoes: ["Parábola", "Circunferência", "Reta", "Hipérbole"],
+        correta: 2
+      },
+      {
+        pergunta: "5. Se a função é f(x) = -2x + 4, ela é:",
+        opcoes: ["Crescente", "Decrescente", "Constante", "Nula"],
+        correta: 1
+      },
+      {
+        pergunta: "6. Uma função afim é considerada crescente quando:",
+        opcoes: ["b < 0", "a > 0", "x < 0", "a = 0"],
+        correta: 1
+      },
+      {
+        pergunta: "7. Em qual quadrante está o ponto (-3, 2)?",
+        opcoes: ["1º", "2º", "3º", "4º"],
+        correta: 1
+      },
+      {
+        pergunta: "8. Qual é a raiz da função f(x) = 3x - 9?",
+        opcoes: ["x = -3", "x = 3", "x = 9", "x = 0"],
+        correta: 1
+      },
+      {
+        pergunta: "9. A imagem de uma função representa:",
+        opcoes: ["Todos os valores de x", "Todos os pares ordenados", "Todos os valores de y", "Somente o intercepto"],
+        correta: 2
+      },
+      {
+        pergunta: "10. A equação f(x) = 0 representa:",
+        opcoes: ["O valor mínimo", "A origem", "A raiz da função", "O ponto máximo"],
+        correta: 2
+      },
+      {
+        pergunta: "11. O ponto (4, -2) está em qual quadrante?",
+        opcoes: ["1º", "2º", "3º", "4º"],
+        correta: 3
+      },
+      {
+        pergunta: "12. Se f(x) = x + 5, qual o valor de f(3)?",
+        opcoes: ["3", "5", "8", "15"],
+        correta: 2
+      },
+      {
+        pergunta: "13. Se f(x) = 2x - 1, então f(0) é igual a:",
+        opcoes: ["-1", "0", "1", "2"],
+        correta: 0
+      },
+      {
+        pergunta: "14. A função f(x) = 0.5x + 2 é:",
+        opcoes: ["Decrescente", "Constante", "Crescente", "Nula"],
+        correta: 2
+      },
+      {
+        pergunta: "15. Qual a fórmula da função afim?",
+        opcoes: ["f(x) = ax² + bx + c", "f(x) = ax + b", "f(x) = a/x", "f(x) = x²"],
+        correta: 1
+      },
+      {
+        pergunta: "16. Quantos quadrantes há no plano cartesiano?",
+        opcoes: ["2", "3", "4", "5"],
+        correta: 2
+      },
+      {
+        pergunta: "17. Qual é o valor de x na função f(x) = 2x + 6 quando f(x) = 0?",
+        opcoes: ["x = -3", "x = 3", "x = 6", "x = -6"],
+        correta: 0
+      },
+      {
+        pergunta: "18. O que caracteriza uma função?",
+        opcoes: ["Vários valores de y para um x", "Um valor de y para cada x", "Vários valores de x para um y", "Nenhum valor fixo"],
+        correta: 1
+      },
+      {
+        pergunta: "19. Se a = 0 em f(x) = ax + b, o gráfico é uma:",
+        opcoes: ["Parábola", "Diagonal", "Reta horizontal", "Reta vertical"],
+        correta: 2
+      },
+      {
+        pergunta: "20. Se f(x) = -x + 1, qual o valor de f(5)?",
+        opcoes: ["6", "-4", "4", "-6"],
+        correta: 1
+      }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+    quiz.forEach((q, index) => {
+      const div = document.createElement('div');
+      div.classList.add('question');
+      div.innerHTML = `
+        <h3>${q.pergunta}</h3>
+        <div class="options">
+          ${q.opcoes.map((op, i) => `
+            <label>
+              <input type="radio" name="q${index}" value="${i}">
+              ${op}
+            </label>`).join('')}
+        </div>
+        <button onclick="checkAnswer(${index}, ${q.correta})">Verificar</button>
+        <div class="feedback" id="fb${index}"></div>
+      `;
+      quizContainer.appendChild(div);
+    });
+
+    function checkAnswer(index, correta) {
+      const options = document.getElementsByName('q' + index);
+      let escolhido = -1;
+      options.forEach((op, i) => {
+        if (op.checked) escolhido = parseInt(op.value);
+      });
+
+      const feedback = document.getElementById('fb' + index);
+      if (escolhido === -1) {
+        feedback.innerHTML = "<span class='incorrect'>Escolha uma opção!</span>";
+      } else if (escolhido === correta) {
+        feedback.innerHTML = "<span class='correct'>Correto!</span>";
+      } else {
+        feedback.innerHTML = "<span class='incorrect'>Incorreto!</span>";
+      }
+    }
+  </script>
 </body>
 </html>
